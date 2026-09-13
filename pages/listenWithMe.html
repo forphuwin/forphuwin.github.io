@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phuwin's Corner - Listen With Me</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Montserrat & Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Playfair+Display:ital,wght@1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'space-dark': '#0f0720',
+                        'card-bg': '#1e0a3d',
+                    },
+                    fontFamily: {
+                        'sans': ['Montserrat', 'sans-serif'],
+                        'serif-italic': ['Playfair Display', 'serif'],
+                    },
+                    keyframes: {
+                        twinkle: {
+                            '0%, 100%': { opacity: '0.2', transform: 'scale(0.7)' },
+                            '50%': { opacity: '1', transform: 'scale(1.2)' },
+                        },
+                        spinSlow: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4', filter: 'drop-shadow(0 0 4px rgba(229,34,208,0.5))' },
+                            '50%': { opacity: '0.85', filter: 'drop-shadow(0 0 14px rgba(229,34,208,0.9))' },
+                        },
+                        floatGentle: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        pulsePlay: {
+                            '0%, 100%': { transform: 'scale(1)', boxShadow: '0 4px 15px rgba(255,255,255,0.3)' },
+                            '50%': { transform: 'scale(1.05)', boxShadow: '0 4px 25px rgba(255,255,255,0.6)' },
+                        }
+                    },
+                    animation: {
+                        'twinkle': 'twinkle 3s ease-in-out infinite',
+                        'spin-slow': 'spinSlow 45s linear infinite',
+                        'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+                        'float-gentle': 'floatGentle 4s ease-in-out infinite',
+                        'pulse-play': 'pulsePlay 2s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #090820;
+            font-family: 'Montserrat', sans-serif;
+            background-image: radial-gradient(circle at 50% 50%, rgba(138, 20, 255, 0.3) 0%, transparent 75%),
+                              url('https://www.transparenttextures.com/patterns/stardust.png');
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .main-music-card {
+            background: linear-gradient(180deg, #1b0838 0%, #260a4f 50%, #170530 100%);
+            border: 1.5px solid rgba(229, 34, 208, 0.7);
+            box-shadow: 0 0 30px rgba(180, 20, 220, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+        }
+
+        .song-item-card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(10px);
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .bg-bottom-gradient {
+            background: linear-gradient(180deg, transparent 0%, #29125e 40%, #1c0847 100%);
+        }
+    </style>
+</head>
+<body class="h-screen w-full flex items-center justify-center p-0 overflow-hidden antialiased select-none">
+
+    <!-- BINGKAI MOCKUP HP -->
+    <div class="relative w-full sm:w-[410px] h-screen bg-[#130728] shadow-[0_0_60px_rgba(112,48,239,0.4)] sm:border-x sm:border-white/10 shrink-0 overflow-hidden flex flex-col">
+        
+        <!-- SIDEBAR DRAWER & OVERLAY -->
+        <div id="sidebarOverlay" class="absolute inset-0 bg-black/60 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300 z-40"></div>
+
+        <div id="sidebar" class="absolute top-0 left-0 w-[80%] h-full bg-gradient-to-b from-[#E800FF] via-[#a223fa] to-[#7030EF] text-white p-5 pt-8 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out rounded-r-[32px] shadow-2xl flex flex-col justify-between overflow-hidden">
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xs font-extrabold tracking-wider text-white/90">PHUWIN'S CORNER</h2>
+                    <button id="closeSidebarBtn" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center active:scale-90 transition-all">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="w-full h-[1px] bg-white/20 mb-6"></div>
+
+                <nav class="space-y-2.5">
+                    <a href="../pages/foryou.html" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/90 font-semibold text-xs hover:bg-white/10 hover:translate-x-1 transition-all">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <span>For you</span>
+                    </a>
+                    <a href="../pages/listenWithMe.html" class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white text-[#7030EF] font-bold text-xs shadow-md transform hover:translate-x-1 transition-all">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#7030EF"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                        <span>Listen with me</span>
+                    </a>
+                    <a href="../pages/LittleThings.html" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/90 font-semibold text-xs hover:bg-white/10 hover:translate-x-1 transition-all">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        <span>Little things</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="pb-4 flex items-center gap-2">
+                <span class="text-2xl font-black tracking-tighter text-white">phuwin</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFE600" class="animate-spin" style="animation-duration: 8s;">
+                    <path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- NAVBAR FIXED -->
+        <div class="absolute top-0 left-0 w-full z-30 p-5 pt-7 flex items-center justify-start pointer-events-none">
+            <button id="openSidebarBtn" class="pointer-events-auto group p-2.5 rounded-xl bg-black/30 backdrop-blur-md border border-white/10 hover:bg-white/20 active:scale-95 transition-all duration-300">
+                <svg width="22" height="16" viewBox="0 0 24 18" fill="none">
+                    <rect y="0" width="24" height="2.5" rx="1.25" fill="white" class="group-hover:translate-x-1 transition-transform"/>
+                    <rect y="7.5" width="17" height="2.5" rx="1.25" fill="white"/>
+                    <rect y="15" width="24" height="2.5" rx="1.25" fill="white" class="group-hover:translate-x-1 transition-transform"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- MAIN SCROLL CONTAINER -->
+        <div id="scrollContainer" class="w-full h-full overflow-y-auto no-scrollbar scroll-smooth flex flex-col relative">
+            
+            <div class="absolute inset-x-0 top-[50vh] bottom-0 bg-bottom-gradient pointer-events-none z-0"></div>
+
+            <!-- SECTION 1: VISUAL ATAS -->
+            <div class="relative w-full h-[50vh] min-h-[350px] shrink-0 flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#120526] via-[#1a0833] to-[#140628]">
+                <div class="absolute w-[290px] h-[290px] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#8328c7] via-[#3a0c6a]/70 to-transparent blur-xl pointer-events-none z-0 translate-y-3"></div>
+                <div class="absolute w-[135%] h-[135%] top-4 animate-spin-slow pointer-events-none opacity-45 z-0">
+                    <svg viewBox="0 0 500 500" class="w-full h-full text-[#e094ff]">
+                        <circle cx="250" cy="250" r="65" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="3 3"/>
+                        <circle cx="250" cy="250" r="100" fill="none" stroke="currentColor" stroke-width="1"/>
+                        <circle cx="250" cy="250" r="135" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="6 4"/>
+                        <circle cx="250" cy="250" r="170" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                        <circle cx="250" cy="250" r="205" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                        <circle cx="250" cy="250" r="238" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 4"/>
+                    </svg>
+                </div>
+                <div class="absolute w-[82%] h-[82%] top-6 rounded-full border border-[#f121d5]/35 animate-pulse-glow pointer-events-none z-0"></div>
+
+                <!-- BINTANG -->
+                <div class="absolute top-14 left-10 text-white animate-twinkle pointer-events-none z-10" style="animation-delay: 0.2s;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg></div>
+                <div class="absolute top-16 right-12 text-white/90 animate-twinkle pointer-events-none z-10" style="animation-delay: 1.1s;"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg></div>
+                <div class="absolute top-36 left-7 text-white/70 animate-twinkle pointer-events-none z-10" style="animation-delay: 2.3s;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg></div>
+                <div class="absolute top-32 right-8 text-white/80 animate-twinkle pointer-events-none z-10" style="animation-delay: 0.7s;"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg></div>
+
+                <!-- ASSET PHUWIN -->
+                <div class="relative z-20 h-full w-full flex items-end justify-center pt-6">
+                    <img src="../assets/character1-page3.png" alt="Phuwin" class="animate-float-gentle h-[102%] object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.7)] transform scale-105 translate-y-2">
+                </div>
+            </div>
+
+            <!-- SECTION 2: LIST LAGU -->
+            <div class="relative z-30 -mt-5 w-[90%] mx-auto main-music-card rounded-[28px] px-5 pt-6 pb-7 flex flex-col items-center shrink-0">
+                <div class="scroll-reveal mb-1 flex justify-center">
+                    <span class="text-3xl font-black tracking-wider text-white drop-shadow-md lowercase font-sans">phuwin</span>
+                </div>
+                <p class="scroll-reveal text-center font-serif-italic italic text-[14.5px] sm:text-[15.5px] text-white/95 mb-5 leading-snug">
+                    Songs that made me<br>
+                    fall for <span class="text-[#f121d5] font-bold not-italic underline decoration-[#f121d5]/50">your</span> music
+                </p>
+
+                <div class="w-full flex flex-col gap-3">
+                    <div class="scroll-reveal">
+                        <div class="song-item-card rounded-[18px] p-2.5 flex items-center justify-between gap-2 hover:bg-white/10 active:scale-[0.98] transition-all">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <img src="../assets/img-slider1-page2.png" class="w-11 h-11 rounded-xl object-cover shrink-0 border border-white/30" alt="To You">
+                                <div class="flex flex-col truncate">
+                                    <h3 class="text-[11.5px] font-bold text-white leading-tight truncate">To You</h3>
+                                    <span class="text-[9.5px] text-white/70 font-medium mt-0.5">Phuwin</span>
+                                </div>
+                            </div>
+                            <a href="https://open.spotify.com" class="shrink-0 bg-gradient-to-r from-[#e522d0] via-[#b522e8] to-[#6d1deb] border border-white/30 text-white font-bold text-[9px] px-3 py-1.5 rounded-full shadow-md">Listen on Spotify</a>
+                        </div>
+                    </div>
+                    <div class="scroll-reveal" style="transition-delay: 100ms;">
+                        <div class="song-item-card rounded-[18px] p-2.5 flex items-center justify-between gap-2 hover:bg-white/10 active:scale-[0.98] transition-all">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <img src="../assets/img-slider2-page2.png" class="w-11 h-11 rounded-xl object-cover shrink-0 border border-white/30" alt="A Minute">
+                                <div class="flex flex-col truncate">
+                                    <h3 class="text-[11.5px] font-bold text-white leading-tight truncate">A Minute</h3>
+                                    <span class="text-[9.5px] text-white/70 font-medium mt-0.5">Phuwin</span>
+                                </div>
+                            </div>
+                            <a href="https://open.spotify.com" class="shrink-0 bg-gradient-to-r from-[#e522d0] via-[#b522e8] to-[#6d1deb] border border-white/30 text-white font-bold text-[9px] px-3 py-1.5 rounded-full shadow-md">Listen on Spotify</a>
+                        </div>
+                    </div>
+                    <div class="scroll-reveal" style="transition-delay: 200ms;">
+                        <div class="song-item-card rounded-[18px] p-2.5 flex items-center justify-between gap-2 hover:bg-white/10 active:scale-[0.98] transition-all">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <img src="../assets/img-slider3-page2.png" class="w-11 h-11 rounded-xl object-cover shrink-0 border border-white/30" alt="Love's Eye View">
+                                <div class="flex flex-col truncate">
+                                    <h3 class="text-[11.5px] font-bold text-white leading-tight truncate">Love's Eye View</h3>
+                                    <span class="text-[9.5px] text-white/70 font-medium mt-0.5">Phuwin</span>
+                                </div>
+                            </div>
+                            <a href="https://open.spotify.com" class="shrink-0 bg-gradient-to-r from-[#e522d0] via-[#b522e8] to-[#6d1deb] border border-white/30 text-white font-bold text-[9px] px-3 py-1.5 rounded-full shadow-md">Listen on Spotify</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: ORNAMEN GAMBAR & HEADING -->
+            <div class="relative z-30 flex flex-col items-center mt-10 mb-2 w-full px-4 overflow-hidden shrink-0">
+                
+                <!-- Ornamen Menggunakan Tag Image Asset -->
+                <div class="scroll-reveal w-full max-w-[320px] mb-8 flex justify-center animate-float-gentle">
+                    <!-- GANTI src INI DENGAN PATH ASSET GAMBAR NADA MUSIKMU -->
+                    <img src="../assets/nada-musik-page3.png" alt="Music Notes" class="w-full h-auto drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]">
+                </div>
+
+                <h3 class="scroll-reveal text-center font-serif-italic italic font-medium text-[17px] text-white leading-relaxed tracking-wide drop-shadow-md">
+                    Three songs I wish I<br>could say to you
+                </h3>
+            </div>
+
+            <!-- SECTION 4: CAROUSEL 3 ITEM -->
+            <div class="relative z-30 w-full mt-6 pb-12 shrink-0 scroll-reveal">
+                
+                <!-- Container Horizontal Scroll -->
+                <div id="carouselContainer" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-5 px-8 pb-4 pt-2 w-full scroll-smooth">
+                    
+                    <!-- KARTU 1 -->
+                    <div class="carousel-card snap-center shrink-0 w-[240px] sm:w-[260px] bg-gradient-to-b from-[#e712db] via-[#a814ea] to-[#6d0dec] rounded-[24px] p-3.5 shadow-[0_12px_35px_rgba(231,18,219,0.4)] border border-white/20 transform transition-transform hover:-translate-y-1">
+                        <div class="w-full aspect-square rounded-[18px] overflow-hidden mb-4 shadow-lg border border-black/10 relative group">
+                            <!-- Ganti asset gambar kartu 1 -->
+                            <img src="../assets/img-slider1-page3.png" alt="All I Ever Need" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        <div class="flex items-center justify-between px-1.5 pb-1">
+                            <div class="flex flex-col text-white">
+                                <h4 class="font-bold text-[15px] leading-tight drop-shadow-sm">All I Ever Need</h4>
+                                <p class="text-white/85 text-[12px] mt-0.5 font-medium">Austine Mahone</p>
+                            </div>
+                            <!-- Tombol Play -->
+                            <button class="w-11 h-11 bg-white rounded-full flex items-center justify-center text-[#d216e0] shadow-[0_4px_15px_rgba(255,255,255,0.6)] hover:scale-110 active:scale-95 transition-all animate-pulse-play group">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="ml-1 group-hover:text-[#a814ea] transition-colors">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- KARTU 2 -->
+                    <div class="carousel-card snap-center shrink-0 w-[240px] sm:w-[260px] bg-gradient-to-b from-[#e712db] via-[#a814ea] to-[#6d0dec] rounded-[24px] p-3.5 shadow-[0_12px_35px_rgba(231,18,219,0.4)] border border-white/20 transform transition-transform hover:-translate-y-1">
+                        <div class="w-full aspect-square rounded-[18px] overflow-hidden mb-4 shadow-lg border border-black/10 relative group">
+                            <!-- Ganti asset gambar kartu 2 -->
+                            <img src="../assets/img-slider2-page3.png" alt="Song Title 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 bg-white/10">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        <div class="flex items-center justify-between px-1.5 pb-1">
+                            <div class="flex flex-col text-white">
+                                <h4 class="font-bold text-[15px] leading-tight drop-shadow-sm">Song Title 2</h4>
+                                <p class="text-white/85 text-[12px] mt-0.5 font-medium">Artist Name</p>
+                            </div>
+                            <button class="w-11 h-11 bg-white rounded-full flex items-center justify-center text-[#d216e0] shadow-[0_4px_15px_rgba(255,255,255,0.6)] hover:scale-110 active:scale-95 transition-all animate-pulse-play group">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="ml-1 group-hover:text-[#a814ea] transition-colors">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- KARTU 3 -->
+                    <div class="carousel-card snap-center shrink-0 w-[240px] sm:w-[260px] bg-gradient-to-b from-[#e712db] via-[#a814ea] to-[#6d0dec] rounded-[24px] p-3.5 shadow-[0_12px_35px_rgba(231,18,219,0.4)] border border-white/20 transform transition-transform hover:-translate-y-1">
+                        <div class="w-full aspect-square rounded-[18px] overflow-hidden mb-4 shadow-lg border border-black/10 relative group">
+                            <!-- Ganti asset gambar kartu 3 -->
+                            <img src="../assets/img-slider3-page3.png" alt="Song Title 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 bg-white/10">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        <div class="flex items-center justify-between px-1.5 pb-1">
+                            <div class="flex flex-col text-white">
+                                <h4 class="font-bold text-[15px] leading-tight drop-shadow-sm">Song Title 3</h4>
+                                <p class="text-white/85 text-[12px] mt-0.5 font-medium">Artist Name</p>
+                            </div>
+                            <button class="w-11 h-11 bg-white rounded-full flex items-center justify-center text-[#d216e0] shadow-[0_4px_15px_rgba(255,255,255,0.6)] hover:scale-110 active:scale-95 transition-all animate-pulse-play group">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="ml-1 group-hover:text-[#a814ea] transition-colors">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- INDIKATOR DOTS SLIDER (Berfungsi) -->
+                <div class="flex justify-center items-center gap-2.5 mt-5">
+                    <button class="carousel-bullet w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] scale-110 transition-all duration-300"></button>
+                    <button class="carousel-bullet w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300"></button>
+                    <button class="carousel-bullet w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300"></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- Sidebar Logic ---
+        const openSidebarBtn = document.getElementById('openSidebarBtn');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function openSidebar() {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            sidebarOverlay.classList.add('opacity-100');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.remove('opacity-100');
+            sidebarOverlay.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        openSidebarBtn.addEventListener('click', openSidebar);
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // --- Scroll Reveal Logic ---
+        const scrollContainer = document.getElementById('scrollContainer');
+        const reveals = document.querySelectorAll('.scroll-reveal');
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            root: scrollContainer,
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        });
+
+        reveals.forEach((el) => scrollObserver.observe(el));
+
+        // --- Carousel & Bullets Logic ---
+        const carouselContainer = document.getElementById('carouselContainer');
+        const cards = document.querySelectorAll('.carousel-card');
+        const bullets = document.querySelectorAll('.carousel-bullet');
+
+        // 1. Klik Bullet untuk Scroll ke Kartu
+        bullets.forEach((bullet, index) => {
+            bullet.addEventListener('click', () => {
+                cards[index].scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest', 
+                    inline: 'center' 
+                });
+            });
+        });
+
+        // 2. Deteksi Scroll untuk Update Bullet Aktif
+        const carouselObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Cari index kartu yang sedang terlihat di tengah
+                    const index = Array.from(cards).indexOf(entry.target);
+                    
+                    // Reset semua bullet ke kondisi tidak aktif
+                    bullets.forEach(b => {
+                        b.classList.remove('bg-white', 'shadow-[0_0_8px_rgba(255,255,255,0.8)]', 'scale-110');
+                        b.classList.add('bg-white/30');
+                    });
+                    
+                    // Aktifkan bullet yang sesuai dengan kartu
+                    bullets[index].classList.remove('bg-white/30');
+                    bullets[index].classList.add('bg-white', 'shadow-[0_0_8px_rgba(255,255,255,0.8)]', 'scale-110');
+                }
+            });
+        }, {
+            root: carouselContainer,
+            threshold: 0.6 // Trigger saat kartu terlihat minimal 60% di area pandang
+        });
+
+        cards.forEach(card => carouselObserver.observe(card));
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi Phuwin!</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'space-bg': '#090820',
+                        'purple-brand': '#7030EF',
+                        'pink-magenta': '#DB1FFF',
+                    },
+                    fontFamily: {
+                        'sans': ['Montserrat', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'float-delayed': 'float 3s ease-in-out 1.5s infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #090820;
+            /* Efek background bintang halus */
+            background-image: radial-gradient(circle at 50% 30%, rgba(112, 48, 239, 0.25) 0%, transparent 60%),
+                              url('https://www.transparenttextures.com/patterns/stardust.png');
+        }
+    </style>
+</head>
+<body class="h-screen w-full flex items-center justify-center overflow-hidden text-white font-sans antialiased">
+
+    <!-- Card Utama (Transparan & Backdrop Blur) -->
+    <div class="relative z-10 w-[85%] max-w-[340px] rounded-[36px] p-7 pt-9 flex flex-col items-center text-center bg-[#7030EF]/35 backdrop-blur-xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] animate-fade-in">
+        
+        <!-- Judul Gradasi -->
+        <h1 class="text-4xl font-black mb-4 tracking-wide bg-gradient-to-r from-white via-white to-[#DB1FFF] bg-clip-text text-transparent drop-shadow-md">
+            HI PHUWIN!
+        </h1>
+        
+        <!-- Subjudul -->
+        <p class="text-xs font-medium mb-8 px-3 leading-relaxed text-white/90">
+            I made a little corner on the internet just for you
+        </p>
+
+        <!-- Kotak Teks Tengah (Inner Box) -->
+        <div class="relative w-full rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 px-5 py-5 mb-10 text-xs font-semibold leading-snug text-white shadow-sm animate-float">
+            
+            <!-- Bintang Kiri Bawah (Miring ke Kiri) -->
+            <div class="absolute -left-3 -bottom-3 transform -rotate-12 animate-float-delayed drop-shadow-[0_0_8px_rgba(219,31,255,0.8)]">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="#DB1FFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round">
+                    <path d="M12 2 C12 7.5 16.5 12 22 12 C16.5 12 12 16.5 12 22 C12 16.5 7.5 12 2 12 C7.5 12 12 7.5 12 2 Z"/>
+                </svg>
+            </div>
+
+            <!-- Bintang Kanan Atas (Miring ke Kanan) -->
+            <div class="absolute -right-3 -top-3 transform rotate-12 animate-float drop-shadow-[0_0_8px_rgba(219,31,255,0.8)]">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="#DB1FFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round">
+                    <path d="M12 2 C12 7.5 16.5 12 22 12 C16.5 12 12 16.5 12 22 C12 16.5 7.5 12 2 12 C7.5 12 12 7.5 12 2 Z"/>
+                </svg>
+            </div>
+
+            There are a few things i wanted yo to know
+        </div>
+
+        <!-- Tombol "Let's Go" (Gradasi Magenta - Gelap) -->
+        <a href="pages/foryou.html">
+            <button id="letsGoBtn" class="w-[150px] py-3 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-[#DB1FFF] via-[#7030EF] to-[#090820] border border-white/30 shadow-[0_0_20px_rgba(219,31,255,0.4)] transform hover:scale-105 active:scale-95 transition-all duration-300">
+                Let's Go
+            </button>
+        </a>
+
+    </div>
+
+    <script>
+        document.getElementById('letsGoBtn').addEventListener('click', function() {
+            const card = document.querySelector('.relative.z-10');
+            card.style.transition = 'all 0.5s ease-in-out';
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(-20px) scale(0.95)';
+        });
+    </script>
+</body>
+</html>
