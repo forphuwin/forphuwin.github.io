@@ -110,7 +110,7 @@
             <!-- TOMBOL SUBMIT FIXED DI BAGIAN BAWAH -->
             <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-[#120526] via-[#120526]/90 to-transparent z-20 flex justify-center">
                 <button type="submit" id="submitBtn" class="w-full max-w-[340px] py-3.5 rounded-full bg-gradient-to-r from-[#d91ad1] via-[#aa1ced] to-[#6c0fec] border border-white/30 text-white font-bold text-[14px] shadow-[0_8px_25px_rgba(217,26,209,0.5)] hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center">
-                    Submit
+                    <span id="btnText">Submit</span>
                 </button>
             </div>
 
@@ -145,7 +145,7 @@
 
     </div>
 
-    <!-- SCRIPT VALIDASI, GOOGLE SHEETS & POP-UP -->
+    <!-- SCRIPT VALIDASI, GOOGLE SHEETS & ANIMASI LOADING -->
     <script>
         // Ganti URL di bawah ini dengan URL Web App Google Apps Script kamu
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwTVOV2HDoiGTvfGXmIwkRUDLxcor9iLWxP-kMxKaVK1w-Z-SK_aT61gb70e3y7P7dZ/exec';
@@ -154,6 +154,7 @@
         const successPopup = document.getElementById('successPopup');
         const popupCard = document.getElementById('popupCard');
         const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
 
         function handleFormSubmit(event) {
             event.preventDefault(); // Mencegah reload halaman standar
@@ -167,19 +168,25 @@
                 return;
             }
 
-            // Ubah teks tombol menjadi "Sending..." sementara data dikirim
-            submitBtn.innerText = "Sending...";
-            submitBtn.style.opacity = "0.7";
+            // Ubah tombol menjadi status loading dengan animasi spinner
+            submitBtn.style.opacity = "0.8";
             submitBtn.style.pointerEvents = "none";
+            btnText.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Sending...
+            `;
 
-            // Data yang akan dikirim ke Google Sheets (sesuai urutan di Apps Script)
+            // Data yang dikirim ke Google Sheets
             const formData = {
-                description: val1,
+                indonesia: val1,
                 song: val2,
                 message: val3
             };
 
-            // Mengirim data menggunakan Fetch API ke Google Sheets
+            // Mengirim data menggunakan Fetch API
             fetch(WEB_APP_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -190,10 +197,10 @@
                 body: JSON.stringify(formData)
             })
             .then(() => {
-                // Kembalikan tombol ke keadaan semula
-                submitBtn.innerText = "Submit";
+                // Kembalikan tombol ke teks semula (opsional, karena pop-up akan muncul)
                 submitBtn.style.opacity = "1";
                 submitBtn.style.pointerEvents = "auto";
+                btnText.innerText = "Submit";
 
                 // Tampilkan pop-up sukses dengan animasi halus
                 successPopup.classList.remove('opacity-0', 'pointer-events-none');
@@ -204,9 +211,9 @@
             .catch(error => {
                 console.error('Error:', error);
                 alert('Terjadi kesalahan saat mengirim data. Coba lagi ya!');
-                submitBtn.innerText = "Submit";
                 submitBtn.style.opacity = "1";
                 submitBtn.style.pointerEvents = "auto";
+                btnText.innerText = "Submit";
             });
         }
     </script>
