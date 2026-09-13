@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phuwin's Corner - A Little Things</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #090820;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .custom-input {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .custom-input::placeholder {
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .custom-input:focus {
+            outline: none;
+            border-color: rgba(229, 34, 208, 0.8);
+            box-shadow: 0 0 15px rgba(229, 34, 208, 0.3);
+            background: rgba(255, 255, 255, 0.12);
+        }
+    </style>
+</head>
+<body class="h-screen w-full flex items-center justify-center p-0 overflow-hidden antialiased select-none">
+
+    <!-- BINGKAI MOCKUP HP -->
+    <div class="relative w-full sm:w-[410px] h-screen bg-gradient-to-b from-[#381163] via-[#210942] to-[#120526] shadow-[0_0_60px_rgba(112,48,239,0.4)] sm:border-x sm:border-white/10 shrink-0 overflow-hidden flex flex-col">
+        
+        <!-- HEADER: TOMBOL KEMBALI & JUDUL -->
+        <div class="relative w-full px-5 pt-7 pb-4 flex items-center justify-between z-20 shrink-0">
+            <a href="LittleThings.html" class="p-2 rounded-xl text-white/90 hover:bg-white/10 active:scale-95 transition-all">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </a>
+            <h1 class="absolute left-1/2 -translate-x-1/2 text-white font-bold text-[15px] tracking-wide">
+                A little things
+            </h1>
+            <div class="w-9"></div>
+        </div>
+
+        <!-- FORM UTAMA -->
+        <form id="questionForm" onsubmit="handleFormSubmit(event)" class="w-full h-full flex flex-col justify-between relative z-10 overflow-hidden">
+            
+            <!-- KONTEN INPUT (SCROLLABLE) -->
+            <div class="w-full h-full overflow-y-auto no-scrollbar px-6 pt-2 pb-24 flex flex-col gap-6">
+                
+                <!-- PERTANYAAN 1 -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-white font-medium text-[13.5px] leading-snug">
+                        If you could describe Indonesia in one word, what would it be?
+                    </label>
+                    <input type="text" id="input1" placeholder="Write here..." required class="w-full h-[48px] px-4 rounded-[16px] text-[13px] custom-input">
+                </div>
+
+                <!-- PERTANYAAN 2 -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-white font-medium text-[13.5px] leading-snug">
+                        Is there a song you’d like me to listen to?
+                    </label>
+                    <input type="text" id="input2" placeholder="Write here..." required class="w-full h-[48px] px-4 rounded-[16px] text-[13px] custom-input">
+                </div>
+
+                <!-- PERTANYAAN 3 -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-white font-medium text-[13.5px] leading-snug">
+                        Is there something you’d like to say to the person who made this for you?
+                    </label>
+                    <textarea id="input3" placeholder="Write here..." rows="5" required class="w-full p-4 rounded-[16px] text-[13px] custom-input resize-none"></textarea>
+                </div>
+
+            </div>
+
+            <!-- TOMBOL SUBMIT FIXED DI BAGIAN BAWAH -->
+            <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-[#120526] via-[#120526]/90 to-transparent z-20 flex justify-center">
+                <button type="submit" id="submitBtn" class="w-full max-w-[340px] py-3.5 rounded-full bg-gradient-to-r from-[#d91ad1] via-[#aa1ced] to-[#6c0fec] border border-white/30 text-white font-bold text-[14px] shadow-[0_8px_25px_rgba(217,26,209,0.5)] hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center">
+                    Submit
+                </button>
+            </div>
+
+        </form>
+
+        <!-- POP-UP MODAL (SUKSES) -->
+        <div id="successPopup" class="absolute inset-0 bg-black/70 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex items-center justify-center p-5">
+            <div class="w-full max-w-[320px] bg-white rounded-[28px] p-6 flex flex-col items-center text-center shadow-2xl transform scale-95 transition-transform duration-300" id="popupCard">
+                
+                <!-- GAMBAR MASKOT BERUANG -->
+                <div class="w-40 h-40 mb-2 flex items-center justify-center">
+                    <img src="../assets/character-popup-page4.png" alt="Mascot" class="w-full h-full object-contain drop-shadow-md">
+                </div>
+
+                <!-- JUDUL POP-UP -->
+                <h2 class="text-[#8c1be6] font-extrabold text-[22px] mb-2 tracking-tight">
+                    Thank you, Phuwin!
+                </h2>
+
+                <!-- DESKRIPSI POP-UP -->
+                <p class="text-[#4a4a4a] text-[12.5px] leading-relaxed font-medium mb-6 px-2">
+                    I'll keep your words as a little memory from today.
+                </p>
+
+                <!-- TOMBOL KEMBALI KE HOMEPAGE -->
+                <a href="foryou.html" class="w-full py-3.5 rounded-full bg-gradient-to-r from-[#d91ad1] via-[#aa1ced] to-[#6c0fec] text-white font-bold text-[13.5px] shadow-[0_6px_20px_rgba(217,26,209,0.4)] hover:brightness-110 active:scale-95 transition-all flex items-center justify-center">
+                    Back to homepage
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT VALIDASI, GOOGLE SHEETS & POP-UP -->
+    <script>
+        // Ganti URL di bawah ini dengan URL Web App Google Apps Script kamu
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwTVOV2HDoiGTvfGXmIwkRUDLxcor9iLWxP-kMxKaVK1w-Z-SK_aT61gb70e3y7P7dZ/exec';
+
+        const form = document.getElementById('questionForm');
+        const successPopup = document.getElementById('successPopup');
+        const popupCard = document.getElementById('popupCard');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Mencegah reload halaman standar
+
+            const val1 = document.getElementById('input1').value.trim();
+            const val2 = document.getElementById('input2').value.trim();
+            const val3 = document.getElementById('input3').value.trim();
+
+            if (val1 === '' || val2 === '' || val3 === '') {
+                alert('Harap isi semua kolom pertanyaan terlebih dahulu!');
+                return;
+            }
+
+            // Ubah teks tombol menjadi "Sending..." sementara data dikirim
+            submitBtn.innerText = "Sending...";
+            submitBtn.style.opacity = "0.7";
+            submitBtn.style.pointerEvents = "none";
+
+            // Data yang akan dikirim ke Google Sheets (sesuai urutan di Apps Script)
+            const formData = {
+                description: val1,
+                song: val2,
+                message: val3
+            };
+
+            // Mengirim data menggunakan Fetch API ke Google Sheets
+            fetch(WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(() => {
+                // Kembalikan tombol ke keadaan semula
+                submitBtn.innerText = "Submit";
+                submitBtn.style.opacity = "1";
+                submitBtn.style.pointerEvents = "auto";
+
+                // Tampilkan pop-up sukses dengan animasi halus
+                successPopup.classList.remove('opacity-0', 'pointer-events-none');
+                successPopup.classList.add('opacity-100');
+                popupCard.classList.remove('scale-95');
+                popupCard.classList.add('scale-100');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat mengirim data. Coba lagi ya!');
+                submitBtn.innerText = "Submit";
+                submitBtn.style.opacity = "1";
+                submitBtn.style.pointerEvents = "auto";
+            });
+        }
+    </script>
+</body>
+</html>
