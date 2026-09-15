@@ -112,77 +112,45 @@
 
     <div class="relative w-full sm:w-[410px] h-screen bg-space-dark shadow-[0_0_60px_rgba(112,48,239,0.4)] sm:border-x sm:border-white/10 shrink-0 overflow-hidden">
 
-        <div id="sidebarOverlay"
-            class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 z-40">
-        </div>
+        <!-- SIDEBAR DRAWER & OVERLAY -->
+        <div id="sidebarOverlay" class="absolute inset-0 bg-black/60 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300 z-50"></div>
 
-        <div id="sidebar"
-            class="absolute top-0 left-0 w-[80%] max-w-[280px] h-full bg-gradient-to-b from-[#E800FF] via-[#a223fa] to-[#7030EF] text-white p-5 pt-8 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out rounded-r-[32px] shadow-2xl flex flex-col overflow-y-auto no-scrollbar">
-
-            <div>
+        <div id="sidebar" class="absolute top-0 left-0 w-[80%] h-full bg-gradient-to-b from-[#E800FF] via-[#a223fa] to-[#7030EF] text-white p-5 pt-7 z-[60] transform -translate-x-full transition-transform duration-300 ease-in-out rounded-r-[32px] shadow-2xl flex flex-col justify-between overflow-hidden">
+            
+            <!-- BAGIAN NAVIGASI ATAS (Scrollable jika layar HP pendek) -->
+            <div class="flex-1 overflow-y-auto no-scrollbar pr-1">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xs font-extrabold tracking-wider text-white/90">
-                        PHUWIN'S CORNER
-                    </h2>
-
-                    <button id="closeSidebarBtn"
-                        class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center active:scale-90 transition-all">
-
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="3"
-                            stroke-linecap="round" stroke-linejoin="round">
-
+                    <h2 class="text-xs font-extrabold tracking-wider text-white/90">PHUWIN'S CORNER</h2>
+                    <button id="closeSidebarBtn" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center active:scale-90 transition-all">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
-
                         </svg>
                     </button>
                 </div>
 
-                <div class="w-full h-[1px] bg-white/20 mb-6"></div>
+                <div class="w-full h-[1px] bg-white/20 mb-5"></div>
 
-                <nav class="space-y-2.5">
-
-                    <a href="foryou.html"
-                        class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white text-[#7030EF] font-bold text-xs shadow-md transform hover:translate-x-1 transition-all">
-
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#7030EF">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                        </svg>
-
+                <nav class="space-y-2">
+                    <a href="../pages/foryou.html" class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white text-[#7030EF] font-bold text-xs shadow-md transform hover:translate-x-1 transition-all">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                         <span>For you</span>
-                    </a>
-
-                    <a href="listenWithMe.html"
-                        class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/90 font-semibold text-xs hover:bg-white/10 hover:translate-x-1 transition-all">
-
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-                        </svg>
-
+                    </a> 
+                    <a href="../pages/listenWithMe.html" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/90 font-semibold text-xs hover:bg-white/10 hover:translate-x-1 transition-all">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#7030EF"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
                         <span>Listen with me</span>
                     </a>
-
-                    <a href="LittleThings.html"
-                        class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/90 font-semibold text-xs hover:bg-white/10 hover:translate-x-1 transition-all">
-
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                        </svg>
-
+                    <a href="../pages/LittleThings.html" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/90 font-semibold text-xs hover:bg-white/10 hover:translate-x-1 transition-all">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                         <span>Little things</span>
                     </a>
-
                 </nav>
             </div>
 
-            <div class="absolute bottom-5 left-5 flex items-center">
-                <img
-                    src="../assets/phuwin-logo.png"
-                    alt="phuwin"
-                    class="h-8 w-auto object-contain">
+            <!-- BAGIAN LOGO BAWAH (Menggunakan Image & Diberi shrink-0) -->
+            <div class="shrink-0 pt-3 pb-2 flex items-center gap-2">
+                <img src="../assets/phuwin-logo.png" alt="phuwin" class="h-6 w-auto object-contain">
             </div>
-
         </div>
 
         <div class="absolute top-0 left-0 w-full z-30 p-5 pt-7 flex items-center justify-start pointer-events-none">
@@ -739,6 +707,7 @@
     </div>
 
     <script>
+        // --- Sidebar Logic ---
         const openSidebarBtn = document.getElementById('openSidebarBtn');
         const closeSidebarBtn = document.getElementById('closeSidebarBtn');
         const sidebar = document.getElementById('sidebar');
